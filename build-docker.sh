@@ -30,7 +30,7 @@ GO_IMAGE=golang:${GO_VERSION}-buster
 # docker.io/docker/dockerfile not support linux/loong64
 #
 sed -i "s@ARCHES:=amd64@ARCHES:=loong64 amd64@g" common.mk
-sed -i 's/syntax=docker/d' deb/debian-buster/Dockerfile
+sed -i '/syntax=docker/d' deb/debian-buster/Dockerfile
 
 ################################################################
 # See. https://github.com/moby/moby
