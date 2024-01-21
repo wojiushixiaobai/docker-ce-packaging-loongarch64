@@ -13,7 +13,7 @@ PACKAGE_VERSION=${VERSION%.*}
 
 TMPDIR=$(mktemp -d)
 
-git clone -b "${PACKAGE_VERSION}" --depth=1 https://github.com/docker/docker-ce-packaging "${TMPDIR}"
+git clone -b "${PACKAGE_VERSION}" --depth=1 https://github.com/docker/docker-ce-packaging "${TMPDIR}" || git clone --depth=1 https://github.com/docker/docker-ce-packaging "${TMPDIR}"
 cp docker.patch "${TMPDIR}"
 
 pushd "${TMPDIR}" || exit 1
