@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-DOCKER_VERSION=v24.0.7
+DOCKER_VERSION=v26.1.1
 
 ################################################################
 # REF: v24.0.7
@@ -13,8 +13,7 @@ PACKAGE_VERSION=${VERSION%.*}
 
 TMPDIR=$(mktemp -d)
 
-git clone -b "${PACKAGE_VERSION}" --depth=1 https://github.com/docker/docker-ce-packaging "${TMPDIR}" || git clone --depth=1 https://github.com/docker/docker-ce-packaging "${TMPDIR}"
-cp docker.patch "${TMPDIR}"
+git clone --depth=1 https://github.com/docker/docker-ce-packaging "${TMPDIR}"
 
 pushd "${TMPDIR}" || exit 1
 
@@ -31,12 +30,6 @@ GO_IMAGE=golang:${GO_VERSION}-buster
 #
 sed -i "s@ARCHES:=amd64@ARCHES:=loong64 amd64@g" common.mk
 sed -i '/syntax=docker/d' deb/debian-buster/Dockerfile
-
-################################################################
-# See. https://github.com/moby/moby
-# vendor/github.com/cilium/ebpf not support linux/loong64
-#
-git apply docker.patch || exit 1
 
 make REF=${REF} VERSION=${VERSION} GO_VERSION=${GO_VERSION} GO_IMAGE=${GO_IMAGE} debian-buster
 
